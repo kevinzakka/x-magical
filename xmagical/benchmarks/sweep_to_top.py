@@ -69,7 +69,11 @@ class SweepToTopEnv(BaseEnv):
         goal_color = DEFAULT_GOAL_COLOR
         if self.rand_colors:
             goal_color = self.rng.choice(en.SHAPE_COLORS)
-        sensor = en.GoalRegion(*DEFAULT_GOAL_XYHW, goal_color, dashed=False,)
+        sensor = en.GoalRegion(
+            *DEFAULT_GOAL_XYHW,
+            goal_color,
+            dashed=False,
+        )
         self.add_entities([sensor])
         self.__sensor_ref = sensor
 
@@ -104,7 +108,11 @@ class SweepToTopEnv(BaseEnv):
                 init_angle=angle,
             )
             for (x, y, angle, shape, color) in zip(
-                x_coords, y_coords, angles, debris_shapes, debris_colors,
+                x_coords,
+                y_coords,
+                angles,
+                debris_shapes,
+                debris_colors,
             )
         ]
         self.add_entities(self.__debris_shapes)

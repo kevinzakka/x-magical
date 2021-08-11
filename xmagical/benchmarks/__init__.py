@@ -134,7 +134,7 @@ class EnvConfig:
         return "-".join(strs)
 
     @classmethod
-    def from_name(cls, env_name: str) -> 'EnvConfig':
+    def from_name(cls, env_name: str) -> "EnvConfig":
         parsed = env_name.split("-")
         assert len(parsed) == 6
         return cls(
@@ -161,7 +161,6 @@ class EnvConfig:
             self.version,
         ]
         return "-".join(strs)
-
 
 
 DEFAULT_RES = (384, 384)
@@ -206,7 +205,10 @@ def register_envs() -> bool:
 
     # These are common to all environments, no matter the config.
     common_kwargs = dict(
-        res_hw=DEFAULT_RES, fps=8, phys_steps=10, phys_iter=10,
+        res_hw=DEFAULT_RES,
+        fps=8,
+        phys_steps=10,
+        phys_iter=10,
     )
 
     # Register all the envs and record their names.
@@ -241,7 +243,8 @@ def register_envs() -> bool:
 
         # Allocentric view variant for pixel observation space.
         env_name_ego = config.env_name.replace(
-            ViewMode.ALLOCENTRIC.value, ViewMode.EGOCENTRIC.value,
+            ViewMode.ALLOCENTRIC.value,
+            ViewMode.EGOCENTRIC.value,
         )
         gym.register(
             env_name_ego,
@@ -258,7 +261,8 @@ def register_envs() -> bool:
         # Register STATE observation env if available.
         if TASK_TO_STATE_AVAILABILITY[config.task]:
             env_name_state = config.env_name.replace(
-                ObservationSpace.PIXELS.value, ObservationSpace.STATE.value,
+                ObservationSpace.PIXELS.value,
+                ObservationSpace.STATE.value,
             )
             gym.register(
                 env_name_state,
@@ -274,7 +278,8 @@ def register_envs() -> bool:
 
             # Allocentric view variant for pixel observation space.
             env_name_state_ego = env_name_state.replace(
-                ViewMode.ALLOCENTRIC.value, ViewMode.EGOCENTRIC.value,
+                ViewMode.ALLOCENTRIC.value,
+                ViewMode.EGOCENTRIC.value,
             )
             gym.register(
                 env_name_state_ego,

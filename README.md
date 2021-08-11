@@ -1,5 +1,8 @@
 # x-magical
 
+![build](https://github.com/kevinzakka/x-magical/workflows/build/badge.svg)
+![license](https://img.shields.io/github/license/kevinzakka/x-magical?color=blue)
+
 **x-magical** is a benchmark extension of [MAGICAL](https://github.com/qxcv/magical) specifically geared towards **cross-embodiment imitation**. The tasks still provide the Demo/Test structure that allows one to evaluate how well imitation or reward learning techniques can generalize the demonstrator's intent to substantially different deployment settings, but there's an added axis of variation focusing on how well these techniques can adapt to systematic embodiment gaps between the demonstrator and the learner. This is a challenging problem, as different embodiments are likely to use unique and suitable strategies that allow them to make progress on a task.
 
 Embodiments in an *x-magical* task must still learn the same set of general skills like 2D perception and manipulation, but they are specifically designed such that they solve the task in different ways due to differences in their end-effector, shapes, dynamics, etc. For example, in the sweeping task, some agents can sweep all debris in one motion while others need to sweep them one at a time. These differences in execution speeds and state-action trajectories pose challenges for current LfD techniques, and the ability to generalize across embodiments is precisely what this benchmark evaluates.
@@ -25,31 +28,6 @@ Here is a description ([source](https://github.com/qxcv/magical#tasks-and-varian
 |  *Shape*   | The shape of pushable blocks is randomized, again subject to task-specific constraints. |
 | *Dynamics* | The mass and friction of objects are randomized.             |
 |   *All*    | All applicable randomizations are applied.                   |
-
-## Installation
-
-**x-magical** requires Python 3.8 or higher. We recommend using an [Anaconda](https://docs.anaconda.com/anaconda/install/) environment for installation. You can create one with the following:
-
-```bash
-conda create -n xmagical python=3.8
-conda activate xmagical
-```
-
-### Installing PyPI release
-
-```bash
-pip install x-magical
-```
-
-### Installing from source
-
-Clone the repository and install in editable mode:
-
-```bash
-git clone https://github.com/kevinzakka/x-magical.git
-cd x-magical
-pip install -e .
-```
 
 ## Usage
 
@@ -86,6 +64,40 @@ env = gym.make('SweepToTop-Shortstick-State-Ego-TestLayout-v0')
 init_obs = env.reset()
 print(init_obs.shape)  # (16,)
 env.close()
+```
+
+## Installation
+
+**x-magical** requires Python 3.8 or higher. We recommend using an [Anaconda](https://docs.anaconda.com/anaconda/install/) environment for installation. You can create one with the following:
+
+```bash
+conda create -n xmagical python=3.8
+conda activate xmagical
+```
+
+### Installing PyPI release
+
+```bash
+pip install x-magical
+```
+
+### Installing from source
+
+Clone the repository and install in editable mode:
+
+```bash
+git clone https://github.com/kevinzakka/x-magical.git
+cd x-magical
+pip install -r requirements.txt
+pip install -e .
+```
+
+### Contributing
+
+If you'd like to contribute to this project, you should install the extra development dependencies as follows:
+
+```bash
+pip install -e .[dev]
 ```
 
 ## Acknowledgments

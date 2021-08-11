@@ -225,9 +225,7 @@ def pm_randomise_pose(
             new_angle = orig_main_angle
 
         # apply new position/orientation to all bodies
-        pm_shift_bodies(
-            space, bodies, position=new_main_body_pos, angle=new_angle
-        )
+        pm_shift_bodies(space, bodies, position=new_main_body_pos, angle=new_angle)
 
         # apply collision tests
         reject = False
@@ -254,9 +252,7 @@ def pm_randomise_pose(
         n_tries += 1
     else:
         # reset original positions before raising exception
-        for body, saved_pos, saved_angle in zip(
-            bodies, saved_positions, saved_angles
-        ):
+        for body, saved_pos, saved_angle in zip(bodies, saved_positions, saved_angles):
             body.position = saved_pos
             body.angle = saved_angle
             space.reindex_shapes_for_body(body)
