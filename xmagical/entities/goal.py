@@ -57,9 +57,7 @@ class GoalRegion(Entity):
         inner_rect.add_transform(self.goal_xform)
         self.viewer.add_geom(inner_rect)
 
-    def get_overlapping_ents(
-        self, ent_index, contained=False, com_overlap=False
-    ):
+    def get_overlapping_ents(self, ent_index, contained=False, com_overlap=False):
         """Get all entities overlapping this region.
 
         Args:
@@ -82,15 +80,11 @@ class GoalRegion(Entity):
             # axis-aligned bounding box, but could lead to false positives if
             # the goal region were a different shape, or if it was rotated.
             goal_bb = self.goal_shape.bb
-            overlap_shapes = {
-                s for s in overlap_shapes if goal_bb.contains(s.bb)
-            }
+            overlap_shapes = {s for s in overlap_shapes if goal_bb.contains(s.bb)}
         if com_overlap:
             goal_bb = self.goal_shape.bb
             overlap_shapes = {
-                s
-                for s in overlap_shapes
-                if goal_bb.contains_vect(s.body.position)
+                s for s in overlap_shapes if goal_bb.contains_vect(s.body.position)
             }
 
         # now look up all indexed entities that own at least one overlapping

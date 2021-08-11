@@ -20,7 +20,10 @@ class KeyboardEnvInteractor(SimpleImageViewer):
     """User interface for interacting in an x-magical environment."""
 
     def __init__(
-        self, action_dim: int, fps: float = 20, resolution: int = 384,
+        self,
+        action_dim: int,
+        fps: float = 20,
+        resolution: int = 384,
     ):
         super().__init__(maxwidth=resolution)
 
@@ -45,15 +48,11 @@ class KeyboardEnvInteractor(SimpleImageViewer):
     def get_action(self) -> List[float]:
         action = [0.0, 0.0, 0.0]
 
-        if (
-            self._keys[pyglet.window.key.UP]
-            and not self._keys[pyglet.window.key.DOWN]
-        ):
+        if self._keys[pyglet.window.key.UP] and not self._keys[pyglet.window.key.DOWN]:
             action[0] = +UP_DOWN_MAG
             self._started = True
         elif (
-            self._keys[pyglet.window.key.DOWN]
-            and not self._keys[pyglet.window.key.UP]
+            self._keys[pyglet.window.key.DOWN] and not self._keys[pyglet.window.key.UP]
         ):
             action[0] = -UP_DOWN_MAG
             self._started = True

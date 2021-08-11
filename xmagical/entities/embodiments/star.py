@@ -28,9 +28,7 @@ class StarEmbodiment(NonHolonomicEmbodiment):
         star_verts = gtools.compute_star_verts(
             self.star_npoints, self.star_out_rad, self.star_in_rad
         )
-        self.cvx_parts = autogeom.convex_decomposition(
-            star_verts + star_verts[:1], 0
-        )
+        self.cvx_parts = autogeom.convex_decomposition(star_verts + star_verts[:1], 0)
         star_hull = autogeom.to_convex_hull(star_verts, 1e-5)
         inertia = pm.moment_for_poly(self.mass, star_hull, (0, 0), 0)
         self.body = pm.Body(self.mass, inertia)

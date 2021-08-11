@@ -3,20 +3,26 @@ import os
 from setuptools import find_packages, setup
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-DESCRIPTION = (
-    "X-MAGICAL is a benchmark suite for cross-embodiment visual imitation."
-)
-TESTS_REQUIRE = [  # Adapted from https://github.com/HumanCompatibleAI/imitation/blob/master/setup.py
-    "black",
-    "flake8",
-    "flake8-blind-except",
-    "flake8-builtins",
-    "flake8-debugger",
-    "flake8-isort",
-    "pytest",
-    "pytest-notebook",
+DESCRIPTION = "X-MAGICAL is a benchmark suite for cross-embodiment visual imitation."
+CORE_REQUIREMENTS = [
+    "absl-py",
+    "gym",
+    "numpy",
+    "pygame",
+    "pyglet",
+    "pymunk",
+    "Pillow",
+]
+TEST_REQUIREMENTS = [
     "pytest-xdist",
     "pytype",
+]
+DEV_REQUIREMENTS = [
+    "ipdb",
+    "jupyter",
+    "black",
+    "isort",
+    "flake8",
 ]
 
 
@@ -43,13 +49,10 @@ setup(
     long_description=readme(),
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=[
-        "gym==0.17.*",
-        "numpy>=1.17.4",
-        "pygame>=2.0.0",
-        "pyglet==1.5.*",
-        "pymunk~=5.6.0",
-    ],
-    tests_require=TESTS_REQUIRE,
+    install_requires=CORE_REQUIREMENTS,
+    extras_require={
+        "dev": [*DEV_REQUIREMENTS, *TEST_REQUIREMENTS],
+        "test": TEST_REQUIREMENTS,
+    },
     url="https://github.com/kevinzakka/x-magical/",
 )

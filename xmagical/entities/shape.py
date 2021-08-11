@@ -127,16 +127,15 @@ class Shape(Entity):
         return shapes
 
     def _make_star(
-        self, star_npoints: int, star_out_rad: float, star_in_rad: float,
+        self,
+        star_npoints: int,
+        star_out_rad: float,
+        star_in_rad: float,
     ) -> Tuple[List[pm.shapes.Poly], List[List[pm.Vec2d]]]:
         # Body.
-        star_verts = gtools.compute_star_verts(
-            star_npoints, star_out_rad, star_in_rad
-        )
+        star_verts = gtools.compute_star_verts(star_npoints, star_out_rad, star_in_rad)
         # Create an exact convex decomposition.
-        convex_parts = autogeom.convex_decomposition(
-            star_verts + star_verts[:1], 0
-        )
+        convex_parts = autogeom.convex_decomposition(star_verts + star_verts[:1], 0)
         star_hull = autogeom.to_convex_hull(star_verts, 1e-5)
         star_inertia = pm.moment_for_poly(self.mass, star_hull, (0, 0), 0)
         self.shape_body = body = pm.Body(self.mass, star_inertia)
@@ -155,7 +154,9 @@ class Shape(Entity):
         return shapes, convex_parts
 
     def _make_regular_polygon(
-        self, num_sides: int, side_len: float,
+        self,
+        num_sides: int,
+        side_len: float,
     ) -> Tuple[List[pm.shapes.Poly], List[Tuple[float, float]]]:
         # Body.
         poly_verts = gtools.compute_regular_poly_verts(num_sides, side_len)
@@ -192,9 +193,7 @@ class Shape(Entity):
             try:
                 factor, num_sides = POLY_TO_FACTOR_SIDE_PARAMS[self.shape_type]
             except KeyError:
-                raise NotImplementedError(
-                    "haven't implemented", self.shape_type
-                )
+                raise NotImplementedError("haven't implemented", self.shape_type)
             side_len = factor * gtools.regular_poly_circ_rad_to_side_length(
                 num_sides, self.shape_size
             )
@@ -210,9 +209,7 @@ class Shape(Entity):
         trans_joint.max_bias = 0
         trans_joint.max_force = self.phys_vars.shape_trans_joint_max_force
         self.add_to_space(trans_joint)
-        rot_joint = pm.GearJoint(
-            self.space.static_body, self.shape_body, 0.0, 1.0
-        )
+        rot_joint = pm.GearJoint(self.space.static_body, self.shape_body, 0.0, 1.0)
         rot_joint.max_bias = 0
         rot_joint.max_force = self.phys_vars.shape_rot_joint_max_force
         self.add_to_space(rot_joint)

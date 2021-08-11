@@ -80,9 +80,7 @@ class PhysicsVariablesBase(metaclass=_PhysicsVariablesMeta, _pbm_skip=True):
     def sample(cls, rng):
         """Return a new instance of the class with randomly sampled variable
         values."""
-        return cls(
-            _var_values={k: v.sample(rng) for k, v in cls.variables.items()}
-        )
+        return cls(_var_values={k: v.sample(rng) for k, v in cls.variables.items()})
 
     def __repr__(self):
         pairs = ", ".join(f"{k}={getattr(self, k)}" for k in self.variables)

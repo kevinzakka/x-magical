@@ -6,8 +6,7 @@ import pymunk as pm
 
 from xmagical import geom as gtools
 from xmagical import render as r
-from xmagical.style import (COLORS_RGB, ROBOT_LINE_THICKNESS, darken_rgb,
-                            lighten_rgb)
+from xmagical.style import COLORS_RGB, ROBOT_LINE_THICKNESS, darken_rgb, lighten_rgb
 
 from .base import NonHolonomicEmbodiment
 
@@ -23,9 +22,7 @@ def make_finger_vertices(upper_arm_len, forearm_len, thickness, side_sign):
     forearm_vertices = gtools.rect_verts(thickness, forearm_len)
     # Now rotate upper arm into place & then move it to correct position.
     upper_start = pm.vec2d.Vec2d(side_sign * thickness / 2, upper_arm_len / 2)
-    forearm_offset_unrot = pm.vec2d.Vec2d(
-        -side_sign * thickness / 2, forearm_len / 2
-    )
+    forearm_offset_unrot = pm.vec2d.Vec2d(-side_sign * thickness / 2, forearm_len / 2)
     rot_angle = side_sign * math.pi / 8
     forearm_trans = upper_start + forearm_offset_unrot.rotated(rot_angle)
     forearm_trans.y += up_shift
@@ -82,8 +79,7 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
             )
             self.finger_vertices.append(finger_verts)
             finger_inner_verts = make_finger_vertices(
-                upper_arm_len=self.finger_upper_length
-                - ROBOT_LINE_THICKNESS * 2,
+                upper_arm_len=self.finger_upper_length - ROBOT_LINE_THICKNESS * 2,
                 forearm_len=self.finger_lower_length - ROBOT_LINE_THICKNESS * 2,
                 thickness=self.finger_thickness - ROBOT_LINE_THICKNESS * 2,
                 side_sign=finger_side,
@@ -103,9 +99,7 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
                 lower_rot_lim = -self.finger_rot_limit_outer
                 upper_rot_lim = self.finger_rot_limit_inner
             finger_mass = self.mass / 8
-            finger_inertia = pm.moment_for_poly(
-                finger_mass, sum(finger_verts, [])
-            )
+            finger_inertia = pm.moment_for_poly(finger_mass, sum(finger_verts, []))
             finger_body = pm.Body(finger_mass, finger_inertia)
             if finger_side < 0:
                 delta_finger_angle = upper_rot_lim
@@ -119,9 +113,7 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
                 finger_side * self.radius * 0.45,
                 self.radius * 0.1,
             )
-            finger_rel_pos_rot = gtools.rotate_vec(
-                finger_rel_pos, self.init_angle
-            )
+            finger_rel_pos_rot = gtools.rotate_vec(finger_rel_pos, self.init_angle)
             finger_body.position = gtools.add_vecs(
                 self.body.position, finger_rel_pos_rot
             )
@@ -130,9 +122,7 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
 
             # Pivot joint to keep it in place (it will rotate around this
             # point).
-            finger_piv = pm.PivotJoint(
-                self.body, finger_body, finger_body.position
-            )
+            finger_piv = pm.PivotJoint(self.body, finger_body, finger_body.position)
             finger_piv.error_bias = 0.0
             self.add_to_space(finger_piv)
 
@@ -211,7 +201,8 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
             self.viewer.add_geom(geom)
 
     def set_action(
-        self, action: Union[np.ndarray, Tuple[float, float, float]],
+        self,
+        action: Union[np.ndarray, Tuple[float, float, float]],
     ) -> None:
         assert len(action) == NonHolonomicGripperEmbodiment.DOF
 
@@ -242,9 +233,7 @@ class NonHolonomicGripperEmbodiment(NonHolonomicEmbodiment):
     def pre_draw(self) -> None:
         super().pre_draw()
 
-        for finger_xform, finger_body in zip(
-            self.finger_xforms, self.finger_bodies
-        ):
+        for finger_xform, finger_body in zip(self.finger_xforms, self.finger_bodies):
             finger_xform.reset(
                 translation=finger_body.position, rotation=finger_body.angle
             )

@@ -14,7 +14,11 @@ class Embodiment(Entity, abc.ABC):
     """Base abstraction for robotic embodiments."""
 
     def __init__(
-        self, radius: float, init_pos, init_angle: float, mass: float = 1.0,
+        self,
+        radius: float,
+        init_pos,
+        init_angle: float,
+        mass: float = 1.0,
     ) -> None:
         self.radius = radius
         self.init_pos = init_pos
@@ -134,9 +138,7 @@ class NonHolonomicEmbodiment(Embodiment):
         control_body.position = self.init_pos
         control_body.angle = self.init_angle
         self.add_to_space(control_body)
-        pos_control_joint = pm.PivotJoint(
-            control_body, self.body, (0, 0), (0, 0)
-        )
+        pos_control_joint = pm.PivotJoint(control_body, self.body, (0, 0), (0, 0))
         pos_control_joint.max_bias = 0
         pos_control_joint.max_force = self.phys_vars.robot_pos_joint_max_force
         self.add_to_space(pos_control_joint)
@@ -175,9 +177,7 @@ class NonHolonomicEmbodiment(Embodiment):
             pupil = r.make_circle(0.12 * self.radius, 100, outline=False)
             pupil.color = (0.1, 0.1, 0.1)  # Black color.
             pupil_transform = r.Transform()
-            pupil.add_transform(
-                r.Transform(translation=(0, self.radius * 0.07))
-            )
+            pupil.add_transform(r.Transform(translation=(0, self.radius * 0.07)))
             pupil.add_transform(pupil_transform)
             pupil.add_transform(eye_base_transform)
             self.pupil_transforms.append(pupil_transform)
@@ -185,15 +185,12 @@ class NonHolonomicEmbodiment(Embodiment):
         self.extra_graphic_bodies.extend(self.eye_shapes)
 
     def set_action(
-        self, action: Union[np.ndarray, Tuple[float, float]],
+        self,
+        action: Union[np.ndarray, Tuple[float, float]],
     ) -> None:
         assert len(action) == NonHolonomicEmbodiment.DOF
-        self.target_speed = np.clip(
-            action[0], -self._speed_limit, self._speed_limit
-        )
-        self.rel_turn_angle = np.clip(
-            action[1], -self._angle_limit, self._angle_limit
-        )
+        self.target_speed = np.clip(action[0], -self._speed_limit, self._speed_limit)
+        self.rel_turn_angle = np.clip(action[1], -self._angle_limit, self._angle_limit)
 
     def update(self, dt: float) -> None:
         del dt
@@ -203,10 +200,6 @@ class NonHolonomicEmbodiment(Embodiment):
         self.control_body.velocity = vel_vector
 
     def pre_draw(self) -> None:
-        self.xform.reset(
-            translation=self.body.position, rotation=self.body.angle
-        )
-        for pupil_xform, pupil_body in zip(
-            self.pupil_transforms, self.pupil_bodies
-        ):
+        self.xform.reset(translation=self.body.position, rotation=self.body.angle)
+        for pupil_xform, pupil_body in zip(self.pupil_transforms, self.pupil_bodies):
             pupil_xform.reset(rotation=pupil_body.angle - self.body.angle)

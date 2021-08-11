@@ -65,9 +65,7 @@ class Transform:
 
     @staticmethod
     def create_scaling_matrix(scale):
-        return np.asarray(
-            [[scale[0], 0.0, 0.0], [0.0, scale[1], 0.0], [0.0, 0.0, 1.0]]
-        )
+        return np.asarray([[scale[0], 0.0, 0.0], [0.0, scale[1], 0.0], [0.0, 0.0, 1.0]])
 
     @staticmethod
     def rigid_transform(pts: np.ndarray, transform: np.ndarray):
@@ -118,9 +116,7 @@ class Transform:
 
 @dataclasses.dataclass
 class Stack:
-    stack: List[np.ndarray] = dataclasses.field(
-        default_factory=lambda: [np.eye(3)]
-    )
+    stack: List[np.ndarray] = dataclasses.field(default_factory=lambda: [np.eye(3)])
 
     def push(self, transform: Transform):
         self.stack.append(self.stack[-1] @ transform.matrix)
@@ -149,9 +145,7 @@ class Geom(abc.ABC):
     def render(self, surface: pygame.Surface, stack: Stack):
         for transform in reversed(self.transforms):
             stack.push(transform)
-        self.geom = stack.apply_current_matrix(
-            np.array(self.initial_pts, copy=True)
-        )
+        self.geom = stack.apply_current_matrix(np.array(self.initial_pts, copy=True))
         self._render(surface)
         for _ in self.transforms:
             stack.pop()
@@ -217,9 +211,7 @@ class Poly(Geom):
             for i in range(len(self.geom)):
                 a = self.geom[i]
                 b = self.geom[(i + 1) % len(self.geom)]
-                self.draw_outline(
-                    surface, a, b, 1, self._outline_color, self.dashed
-                )
+                self.draw_outline(surface, a, b, 1, self._outline_color, self.dashed)
 
     @staticmethod
     def draw_outline(surface, a, b, radius, fill_color, dashed):
@@ -257,10 +249,7 @@ class Poly(Geom):
                 orthog = [abs(p2[1] - p1[1]), abs(p2[0] - p1[0])]
                 if orthog[0] == 0 and orthog[1] == 0:
                     return
-                scale = (
-                    radius
-                    / (orthog[0] * orthog[0] + orthog[1] * orthog[1]) ** 0.5
-                )
+                scale = radius / (orthog[0] * orthog[0] + orthog[1] * orthog[1]) ** 0.5
                 orthog[0] = round(orthog[0] * scale)
                 orthog[1] = round(orthog[1] * scale)
                 points = [
@@ -285,7 +274,10 @@ class Poly(Geom):
 
 
 def ego_cam_matrix(
-    centre: CoordType, new_pos: CoordType, rotation: float, scale: CoordType,
+    centre: CoordType,
+    new_pos: CoordType,
+    rotation: float,
+    scale: CoordType,
 ):
     """Create an ego-centric top-down camera."""
     scale = Transform(scale=(scale[0], scale[1]))
