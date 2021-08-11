@@ -5,6 +5,7 @@ import gym
 import numpy as np
 import pymunk as pm
 from gym import spaces
+from gym.utils import seeding
 
 import xmagical.entities as en
 import xmagical.render as r
@@ -99,9 +100,12 @@ class BaseEnv(gym.Env, abc.ABC):
         The action space should probably be seeded in a downstream RL
         application.
         """
-        if seed is None:
-            seed = np.random.randint(0, (1 << 31) - 1)
-        self.rng = np.random.RandomState(seed=seed)
+        # if seed is None:
+        #     seed = np.random.randint(0, (1 << 31) - 1)
+        # self.rng = np.random.RandomState(seed=seed)
+        # return [seed]
+        self.np_random, seed = seeding.np_random(seed)
+        self.action_space.seed(seed)
         return [seed]
 
     def _make_robot(

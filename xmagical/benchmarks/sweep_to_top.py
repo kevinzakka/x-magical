@@ -68,7 +68,8 @@ class SweepToTopEnv(BaseEnv):
 
         goal_color = DEFAULT_GOAL_COLOR
         if self.rand_colors:
-            goal_color = self.rng.choice(en.SHAPE_COLORS)
+            # goal_color = self.rng.choice(en.SHAPE_COLORS)
+            goal_color = np.random.choice(en.SHAPE_COLORS)
         sensor = en.GoalRegion(
             *DEFAULT_GOAL_XYHW,
             goal_color,
@@ -83,9 +84,11 @@ class SweepToTopEnv(BaseEnv):
         if self.rand_layout_full:
             # The three blocks are located at the same y coordinate but their x
             # coordinate is randomized.
-            y_coord = self.rng.uniform(-0.1, 0.5)
+            # y_coord = self.rng.uniform(-0.1, 0.5)
+            y_coord = np.random.uniform(-0.1, 0.5)
             y_coords = [y_coord] * 3
-            x_coords = self.rng.choice(
+            # x_coords = self.rng.choice(
+            x_coords = np.random.choice(
                 np.arange(-0.8, 0.8, 4.0 * self.SHAPE_RAD),
                 size=self.num_debris,
                 replace=False,
@@ -93,11 +96,13 @@ class SweepToTopEnv(BaseEnv):
         debris_shapes = [DEFAULT_BLOCK_SHAPE] * self.num_debris
         debris_colors = [DEFAULT_BLOCK_COLOR] * self.num_debris
         if self.rand_shapes:
-            debris_shapes = self.rng.choice(
+            # debris_shapes = self.rng.choice(
+            debris_shapes = np.random.choice(
                 en.SHAPE_TYPES, size=self.num_debris
             ).tolist()
         if self.rand_colors:
-            debris_colors = self.rng.choice(
+            # debris_colors = self.rng.choice(
+            debris_colors = np.random.choice(
                 en.SHAPE_COLORS, size=self.num_debris
             ).tolist()
         self.__debris_shapes = [
@@ -134,9 +139,9 @@ class SweepToTopEnv(BaseEnv):
         for target_shape in self.__debris_shapes:
             tpos = target_shape.shape_body.position
             target_pos.extend(tuple(tpos))
-            robot_target_dist.append(np.linalg.norm(robot_pos - tpos) / D_MAX)
+            robot_target_dist.append(np.linalg.norm(robot_pos - tpos))
             gpos = (tpos[0], goal_y)
-            target_goal_dist.append(np.linalg.norm(tpos - gpos) / D_MAX)
+            target_goal_dist.append(np.linalg.norm(tpos - gpos))
         state = [
             *tuple(robot_pos),  # 2
             *target_pos,  # 2t
