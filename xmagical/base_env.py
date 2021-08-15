@@ -86,8 +86,8 @@ class BaseEnv(gym.Env, abc.ABC):
             low=0, high=255, shape=(*self.res_hw, 3), dtype=np.uint8
         )
         self.action_space = spaces.Box(
-            np.array([-1] * self.action_dim),
-            np.array([+1] * self.action_dim),
+            np.array([-1] * self.action_dim, dtype=np.float32),
+            np.array([+1] * self.action_dim, dtype=np.float32),
             dtype=np.float32,
         )
 

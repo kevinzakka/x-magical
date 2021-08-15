@@ -57,8 +57,8 @@ class SweepToTopEnv(BaseEnv):
             # to pixels.
             c = 4 if self.action_dim == 2 else 5
             self.observation_space = spaces.Box(
-                np.array([-1] * (c + 4 * self.num_debris)),
-                np.array([+1] * (c + 4 * self.num_debris)),
+                np.array([-1] * (c + 4 * self.num_debris), dtype=np.float32),
+                np.array([+1] * (c + 4 * self.num_debris), dtype=np.float32),
                 dtype=np.float32,
             )
 
