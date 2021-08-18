@@ -255,7 +255,9 @@ class BaseEnv(gym.Env, abc.ABC):
         eval_score = 0.0
         info = {}
         if self.max_episode_steps is not None:
-            done = done or self._episode_steps >= self.max_episode_steps
+            if self._episode_steps >= self.max_episode_steps:
+                info["TimeLimit.truncated"] = not done
+                done = True
         if done:
             eval_score = self.score_on_end_of_traj()
             assert (
