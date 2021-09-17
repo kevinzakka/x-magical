@@ -1,11 +1,18 @@
 import os
-import pathlib
 
-import pkg_resources
 from setuptools import find_packages, setup
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 DESCRIPTION = "X-MAGICAL is a benchmark suite for cross-embodiment visual imitation."
+CORE_REQUIREMENTS = [
+    "absl-py",
+    "gym",
+    "numpy",
+    "pygame",
+    "pyglet",
+    "pymunk",
+    "Pillow",
+]
 TEST_REQUIREMENTS = [
     "pytest-xdist",
     "pytype",
@@ -17,11 +24,6 @@ DEV_REQUIREMENTS = [
     "isort",
     "flake8",
 ]
-with pathlib.Path("requirements.txt").open() as requirements_txt:
-    CORE_REQUIREMENTS = [
-        str(requirement)
-        for requirement in pkg_resources.parse_requirements(requirements_txt)
-    ]
 
 
 def readme():
