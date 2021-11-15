@@ -1,7 +1,7 @@
-absl-py==0.13.0
+absl-py
 gym==0.18.3
-numpy==1.21.1
-Pillow==8.2.0
+numpy
 pygame==2.0.1
 pyglet==1.5.15
 pymunk==5.6.0
+Pillow
