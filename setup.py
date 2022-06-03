@@ -10,7 +10,7 @@ CORE_REQUIREMENTS = [
     "numpy",
     "pygame",
     "pyglet",
-    "pymunk",
+    "pymunk~=5.6.0",
     "Pillow",
 ]
 TEST_REQUIREMENTS = [
