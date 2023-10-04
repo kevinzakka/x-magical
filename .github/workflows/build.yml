@@ -6,11 +6,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        docker-image: ["python:3.8"]
+        python-version: ["python:3.11"]
     steps:
-    - name: Checkout xmagical
-      uses: actions/checkout@v2
-    - name: Run tests in docker
-      run: |
-        docker run --mount "type=bind,src=$(pwd),dst=/tmp/xmagical" \
-            -w "/tmp/xmagical" --rm ${{ matrix.docker-image }} /bin/bash test.sh
+      - name: Checkout robopianist
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libgl1-mesa-dev gfortran libopenblas-dev liblapack-dev
+      - name: Prepare Python
+        run: |
+          python -m pip install --upgrade pip wheel
+          pip install -r requirements.txt
+          pip install -e ".[test]"
+      - name: Run tests
+        run: |
+          pytest tests/

@@ -1,6 +1,6 @@
 # x-magical
 
-![build](https://github.com/kevinzakka/x-magical/workflows/build/badge.svg)
+[![xmagical-tests](https://github.com/kevinzakka/x-magical/actions/workflows/build.yml/badge.svg)](https://github.com/kevinzakka/x-magical/actions/workflows/build.yml)
 ![license](https://img.shields.io/github/license/kevinzakka/x-magical?color=blue)
 
 **x-magical** is a benchmark extension of [MAGICAL](https://github.com/qxcv/magical) specifically geared towards **cross-embodiment imitation**. The tasks still provide the Demo/Test structure that allows one to evaluate how well imitation or reward learning techniques can generalize the demonstrator's intent to substantially different deployment settings, but there's an added axis of variation focusing on how well these techniques can adapt to systematic embodiment gaps between the demonstrator and the learner. This is a challenging problem, as different embodiments are likely to use unique and suitable strategies that allow them to make progress on a task.
